@@ -2,7 +2,7 @@
 import { signOut } from "next-auth/react";
 import React from "react";
 import { BiLogOutCircle } from "react-icons/bi";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const SidebarBottom = () => {
 

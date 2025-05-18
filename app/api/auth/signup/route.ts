@@ -1,5 +1,5 @@
-import User from "@/app/(auth)/(models)/User";
-import { db } from "@/app/(database)/db";
+import User from "@/app/models/User";
+import { db } from "@/app/lib/db";
 import bcrypt from "bcryptjs";
 import { NextResponse, NextRequest } from "next/server"
 
