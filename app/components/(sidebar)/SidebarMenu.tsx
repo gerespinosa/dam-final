@@ -8,9 +8,9 @@ const SidebarMenu = () => {
   return (
     // Menú del sidebar
     <ul className='flex flex-col justify-center gap-8 items-center  h-1/3'>
-        <Link href={""}><IoHome/></Link>
-        <Link href={""}><FaUser /></Link>
-        <Link href={""}><FaMoneyBillWave /></Link>
+        <Link href={""}><IoHome className='fill-white'/></Link>
+        <Link href={""}><FaUser className='fill-white' /></Link>
+        <Link href={""}><FaMoneyBillWave className='fill-white' /></Link>
     </ul>
   )
 }

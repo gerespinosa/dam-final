@@ -21,7 +21,7 @@ const SidebarBottom = () => {
 
     {/* Log Out */}
       <li onClick={handleLogout}>
-        <BiLogOutCircle />
+        <BiLogOutCircle className="fill-white" />
       </li>
 
     {/* Avatar */}

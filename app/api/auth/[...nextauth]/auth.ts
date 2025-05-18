@@ -46,4 +46,25 @@ export const authConfig = {
   pages: {
     error: '/error', // Evita el error 405 redirigiendo a una ruta válida
   },
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.username = user.username;
+        token.email = user.email;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      session.user = {
+        id: token.id,
+        username: token.username,
+        email: token.email,
+      };
+      return session;
+    },
+  },
 };
