@@ -1,10 +1,9 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import DashboardRecap from "./(components)/DashboardRecap";
-import { useSession } from "next-auth/react";
-import { getUserTransactions } from "@/app/services/getUserTransactions";
+'use client'
+import React, { useState, useEffect } from 'react'
+import { useSession } from 'next-auth/react'
+import { getUserTransactions } from '@/app/services/getUserTransactions'
 
-const page = () => {
+const Page = () => {
   const { data: session } = useSession()
   const userId = session?.user?.id
 
@@ -29,12 +28,16 @@ const page = () => {
   if (!userId) return <p>Cargando sesión...</p>
 
   if (transactions.length === 0) return <p>No hay transacciones</p>
-  return (
-    <section className="flex flex-col p-2 space-y-4">
-      <h2 className="sm:text-3xl">Hola {session?.user?.username ?? "Cargando"}</h2>
-      <DashboardRecap userId={userId} transactions={transactions} />
-    </section>
-  );
-};
 
-export default page;
+  return (
+    <div>
+        {transactions.map((transaction, index) => {
+            return (
+                <div key={index}>{transaction.desc}</div>
+            )
+        })}
+    </div>
+  )
+}
+
+export default Page
