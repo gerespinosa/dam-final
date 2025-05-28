@@ -7,6 +7,7 @@ export async function POST (request: NextRequest){
 
     // Le paso los siguientes datos, que son los necesarios para crear el usuario
     const {username, password, email} = await request.json()
+    console.log("Datos recibidos:", { username, email, password });
 
     try{
 
@@ -19,8 +20,10 @@ export async function POST (request: NextRequest){
         if(!findUser){
 
             // Hasheamos la password por seguridad
+            (console.log("Vas por aquí"))
             const hashPassword : string = await bcrypt.hash(password, 12)
 
+            // Creanos el nuevo usuario utilizando la password hasheada
             const newUser : User = await User.create({
                 username,
                 email,
@@ -35,6 +38,7 @@ export async function POST (request: NextRequest){
                 user: savedUser
             })
 
+
         }else{
             // Si existe el usuario, compararemos las password
             return NextResponse.json({
@@ -42,11 +46,11 @@ export async function POST (request: NextRequest){
                 message: "Usuario ya existente en la base de datos"
             })
         }
-    }catch (error){
-        // En caso de error, nos devuelve el error
+    } catch (error: any) {
+        console.error(" ERROR en creación de usuario:", error.message || error);
         return NextResponse.json({
             status: 500,
-            error: error
-        })
+            error: error.message || "Unknown error"
+        });
     }
 }

@@ -1,6 +1,6 @@
-import LoginForm from "./components/LoginForm";
 import Link from "next/link";
 import Image from "next/image";
+import SignUpForm from "./(components)/SignUpForm";
 
 export default function Home() {
 
@@ -17,8 +17,8 @@ export default function Home() {
         <h1 className="text-5xl">BUDKIT</h1>
       {/* Formulario del login */}
       </div>
-        <LoginForm />
-        <Link href={"/signup"}>¿No tienes cuenta? Registrate</Link>
+        <SignUpForm />
+        <Link href={"/"}>¿Ya tienes cuenta? Acceder aquí</Link>
       </div>
     </section>
   );

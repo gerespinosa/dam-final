@@ -11,7 +11,7 @@ const categorySchema = new Schema({
 }, { _id: false });
 
 const transactionSchema = new Schema({
-  user: {
+  userId: {
     type: String,
     required: true
   },
@@ -32,7 +32,8 @@ const transactionSchema = new Schema({
     required: true
   },
   receipt: {
-    type: Schema.Types.Mixed
+    type: String,
+    required: false
   },
   notes: [{
     type: String

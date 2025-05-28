@@ -8,9 +8,11 @@ export async function POST(req: NextRequest) {
 
   try {
     await db()
+    console.log("hola",userId)
     const transactions = await Transaction.find({
-      user: userId
+      userId: userId
     });
+    console.log(transactions)
     return NextResponse.json({
       transactions,
     });

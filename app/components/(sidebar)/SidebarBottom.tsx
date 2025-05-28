@@ -3,8 +3,11 @@ import { signOut } from "next-auth/react";
 import React from "react";
 import { BiLogOutCircle } from "react-icons/bi";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useSession } from "next-auth/react";
 
 const SidebarBottom = () => {
+
+  const { data: session } = useSession();
 
   //Manejamos el logout
   async function handleLogout() {
@@ -25,10 +28,13 @@ const SidebarBottom = () => {
       </li>
 
     {/* Avatar */}
-      <Avatar>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+<Avatar>
+  {session?.user?.image ? (
+    <AvatarImage src={session.user.image} />
+  ) : (
+    <AvatarFallback>{session?.user?.name?.[0] ?? "?"}</AvatarFallback>
+  )}
+</Avatar>
     </ul>
   );
 };

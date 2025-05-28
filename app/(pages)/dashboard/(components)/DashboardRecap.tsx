@@ -13,7 +13,6 @@ const DashboardRecap = ({userId, transactions}: DashboardRecapProps) => {
   const totalSavings : number = totalIncome - totalExpenses
   console.log(totalIncome, totalExpenses, totalSavings)
 
-  
 
   return (
     <div className='flex-col gap-2 w-[30%] border-blue-400 min-h-[30vh] border-2 p-4 rounded-md'>
@@ -21,12 +20,12 @@ const DashboardRecap = ({userId, transactions}: DashboardRecapProps) => {
     <h3 className='text-right md:text-xl font-semibold'>Recap</h3>
 
     {/* Charts */}
-    <p>{totalIncome}€</p>
-    <p>{totalExpenses}€</p>
-    <p>{totalSavings}€</p>
+    <p>Total Ingresos: {totalIncome}€</p>
+    <p>Total Gastos: {totalExpenses}€</p>
+    <p>Ahorrado: {totalSavings}€</p>
 
     </div>
   )
-}
+} // Fin del componente
 
 export default DashboardRecap

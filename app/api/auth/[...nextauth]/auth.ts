@@ -34,13 +34,23 @@ export const authConfig = {
         return {
           id: user._id.toString(),
           username: user.username,
-          email: user.email
+          email: user.email,
+          image: user.image
         };
       }
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.given_name,
+          email: profile.email,
+          image: profile.picture,
+          username: profile.name,
+        };
+      },
     }),
   ],
   pages: {
@@ -53,8 +63,9 @@ export const authConfig = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.username = user.username;
+        token.username = user.username ?? user.name ?? null;
         token.email = user.email;
+        token.image = user.image || user.picture || null;
       }
       return token;
     },
@@ -63,6 +74,8 @@ export const authConfig = {
         id: token.id,
         username: token.username,
         email: token.email,
+        name: token.username,
+        image: token.image,
       };
       return session;
     },
