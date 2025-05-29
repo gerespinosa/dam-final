@@ -8,6 +8,6 @@ export async function getUserTransactions (userId:string) {
         return transactions
 
     }catch(error: any){
-        console.log("Imposible recuperar las transacciones del usuario", userId)
+        console.log("Imposible recuperar las transacciones del usuario", userId, error)
     }
 }
