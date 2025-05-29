@@ -30,9 +30,10 @@ const page = () => {
         const isExpense = parseFloat(amount) < 0
         const selectedCategory = categoriesList.find(cat => cat.name === category);
         if (!selectedCategory) return;
+        const userId = (session?.user as { id?: string })?.id;
         
         const response = await instance.post('/transaction/create', {
-            userId: session?.user?.id,
+          userId: userId,
             transaction: {
                 isExpense,
                 amount: parseFloat(amount),

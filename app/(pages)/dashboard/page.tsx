@@ -9,8 +9,8 @@ import TransactionsGraph from "./(components)/TransactionGraph";
 
 const page = () => {
   const { data: session } = useSession();
-  // Type assertion to include 'id' on user
-    const userId: string | undefined = (session?.user as (typeof session.user & { id?: string }))?.id;
+  // Type assertion simplified
+  const userId = (session?.user as { id?: string })?.id;
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -20,8 +20,8 @@ const page = () => {
 
     const fetchTransactions = async () => {
       try {
-        const data: Transaction[] = await getUserTransactions(userId);
-        setTransactions(data);
+        const data = await getUserTransactions(userId);
+        setTransactions(data ?? []);
       } catch (error) {
         console.error("Error fetching transactions:", error);
       }
@@ -35,7 +35,7 @@ const page = () => {
     <section className="h-full flex flex-col p-2 space-y-4 justify-between">
       <div className="w-full flex justify-between">
         <h2 className="sm:text-3xl">
-          Hola {session?.user?.username ?? session?.user?.name ?? "Cargando"}
+          Hola {(session?.user as { username?: string; name?: string })?.username ?? session?.user?.name ?? "Cargando"}
         </h2>
         {/* Nueva operación */}
         <NewTransactionButton />

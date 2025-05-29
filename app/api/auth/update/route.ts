@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/app/models/User';
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth'
+import { getServerSession } from 'next-auth/next'
 import { db } from '@/app/lib/db';
-import { getServerSession } from 'next-auth/next';
-import { authConfig } from '../[...nextauth]/auth';
 
 export async function PATCH(req: NextRequest) {
   await db();
@@ -11,7 +11,7 @@ export async function PATCH(req: NextRequest) {
   console.log("lo que llega wey", userId, username, imgUrl)
 
     // Comprobar sesión
-    const session = await getServerSession(authConfig);
+ const session = await getServerSession(authOptions);
   const sessionUser = (session?.user ?? {}) as any;
   if (!session || (sessionUser.id !== userId && sessionUser.email !== email)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -37,7 +37,7 @@ export async function PATCH(req: NextRequest) {
   await user.save();
   console.log("Usuario guardado:", user);
 
-  const updatedSession = await getServerSession(authConfig);
+  const updatedSession = await getServerSession(authOptions);
   console.log("🔄 Nueva sesión:", updatedSession?.user);
 
   return NextResponse.json({ message: 'Usuario actualizado correctamente' });

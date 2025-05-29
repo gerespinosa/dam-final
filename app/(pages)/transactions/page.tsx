@@ -7,7 +7,7 @@ import NewTransactionButton from '../dashboard/(components)/NewTransactionButton
 
 const Page = () => {
   const { data: session } = useSession()
-  const userId = session?.user?.id
+  const userId = (session?.user as { id?: string })?.id;
 
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
@@ -19,8 +19,8 @@ const Page = () => {
     const fetchTransactions = async () => {
       try {
         // const data : Transaction[]= await getUserTransactions(userId)
-        const data : any[] = await getUserTransactions(userId)
-        setTransactions(data)
+        const data = await getUserTransactions(userId)
+        setTransactions(data ?? [])
       } catch (error) {
         console.error("Error fetching transactions:", error)
       }

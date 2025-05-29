@@ -15,7 +15,22 @@ const page = () => {
   const [nuevoPassword, setNuevoPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [imgUrl, setImgUrl] = useState("");
-  const { data: session } = useSession();
+  interface SessionUser {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    id?: string | null;
+    username?: string | null;
+    imgUrl?: string | null;
+    createdAt?: string | Date | null;
+  }
+
+  interface SessionData {
+    user?: SessionUser;
+    [key: string]: any;
+  }
+
+  const { data: session } = useSession() as { data: SessionData | null };
 
   const router = useRouter();
 
@@ -75,7 +90,7 @@ const page = () => {
       if (response.status === 200) {
         await signIn("credentials", {
           redirect: false,
-          username: session?.user?.username,
+          username: session?.user?.name,
           password: password || nuevoPassword,
         });
         router.push("/user");
@@ -161,13 +176,13 @@ const page = () => {
       {/* Parte derecha */}
       <div className="w-1/2 h-fit  bg-gradient-to-r from-blue-400 to-blue-200 border rounded-md p-4 shadow-md bg-white space-y-2">
         <img
-          src={session?.user?.imgUrl}
+          src={session?.user?.imgUrl || session?.user?.image || "/default-profile.png"}
           alt="Foto de perfil"
           className="w-24 h-24 rounded-full object-cover mx-auto shadow-md mb-4"
         />
         <div className="text-center">
-          <p className="font-semibold">{session?.user.username}</p>
-          <p className="text-sm text-gray-500">ID: {session?.user.id}</p>
+          <p className="font-semibold">{session?.user?.username}</p>
+          <p className="text-sm text-gray-500">ID: {session?.user?.id}</p>
           <p className="text-sm text-gray-500">
             {/* Unid@ el {dateAdapter(session?.user.createdAt)} */}
           </p>

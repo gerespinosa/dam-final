@@ -1,10 +1,11 @@
+import { SessionStrategy } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/app/lib/db";
 import User from "@/app/models/User";
 import bcrypt from "bcryptjs";
 
-export const authConfig = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -57,10 +58,10 @@ export const authConfig = {
     error: '/error', // Evita el error 405 redirigiendo a una ruta válida
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.id = user.id;
         token.username = user.username ?? user.name ?? null;
@@ -69,7 +70,7 @@ export const authConfig = {
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: any }) {
       session.user = {
         id: token.id,
         username: token.username,
