@@ -1,13 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/app/models/User';
 import { db } from '@/app/lib/db';
+import { getServerSession } from 'next-auth/next';
+import { authConfig } from '../[...nextauth]/auth';
 
 export async function PATCH(req: NextRequest) {
   await db();
   const body = await req.json();
   const { userId, username, email, password, imgUrl } = body;
+  console.log("lo que llega wey", userId, username, imgUrl)
 
-  console.log("🧾 PATCH recibido con:", { userId, username, email, imgUrl });
+    // Comprobar sesión
+    const session = await getServerSession(authConfig);
+  const sessionUser = (session?.user ?? {}) as any;
+  if (!session || (sessionUser.id !== userId && sessionUser.email !== email)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  console.log("Hola soy la session", session.user)
 
   // Buscar usuario por userId
   if (!userId) {
@@ -25,8 +35,10 @@ export async function PATCH(req: NextRequest) {
   if (imgUrl) user.imgUrl = imgUrl;
 
   await user.save();
+  console.log("Usuario guardado:", user);
 
-  console.log("✅ Usuario actualizado:", user);
+  const updatedSession = await getServerSession(authConfig);
+  console.log("🔄 Nueva sesión:", updatedSession?.user);
 
   return NextResponse.json({ message: 'Usuario actualizado correctamente' });
 }

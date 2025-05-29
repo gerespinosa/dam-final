@@ -15,7 +15,7 @@ const userSchema = new Schema ({
         type: String,
         required: false
     },
-    imgUrl: { 
+    imgUrl: {
         type: String,
         required: false
     }

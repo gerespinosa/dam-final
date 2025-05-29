@@ -7,7 +7,6 @@ export async function POST (req: NextRequest){
     const {name, shownName, url} = body
 
     try{
-        console.log("Recibido", name, shownName, url)
         await db()
         const newCategory = new Category({
             name: name,
@@ -16,7 +15,6 @@ export async function POST (req: NextRequest){
         })
 
         const savedCategory = await newCategory.save()
-        console.log("Categoría creada", savedCategory)
      return NextResponse.json({
   savedCategory: {
     name: savedCategory.name,

@@ -30,12 +30,12 @@ export const authConfig = {
         }
       
         // Si todo va bien, devuelve el usuario
-        console.log(user)
+        console.log("Hola soy el user que buscas", user)
         return {
           id: user._id.toString(),
           username: user.username,
           email: user.email,
-          url: user.url
+          imgUrl: user.imgUrl
         };
       }
     }),
@@ -47,7 +47,7 @@ export const authConfig = {
           id: profile.sub,
           name: profile.given_name,
           email: profile.email,
-          url: profile.url,
+          imgUrl: profile.imgUrl,
           username: profile.name,
         };
       },
@@ -65,7 +65,7 @@ export const authConfig = {
         token.id = user.id;
         token.username = user.username ?? user.name ?? null;
         token.email = user.email;
-        token.image = user.image || user.picture || null;
+        token.imgUrl = user.imgUrl || user.picture
       }
       return token;
     },
@@ -75,7 +75,7 @@ export const authConfig = {
         username: token.username,
         email: token.email,
         name: token.username,
-        image: token.image,
+        imgUrl: token.imgUrl,
       };
       return session;
     },

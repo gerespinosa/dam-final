@@ -7,7 +7,6 @@ export async function POST (request: NextRequest){
 
     // Le paso los siguientes datos, que son los necesarios para crear el usuario
     const {username, password, email} = await request.json()
-    console.log("Datos recibidos:", { username, email, password });
 
     try{
 
@@ -20,7 +19,6 @@ export async function POST (request: NextRequest){
         if(!findUser){
 
             // Hasheamos la password por seguridad
-            (console.log("Vas por aquí"))
             const hashPassword : string = await bcrypt.hash(password, 12)
 
             // Creanos el nuevo usuario utilizando la password hasheada

@@ -12,7 +12,6 @@ const DashboardRecap = ({userId, transactions}: DashboardRecapProps) => {
   const totalExpenses : number = transactions?.filter((transaction: Transaction) => transaction.isExpense === true).reduce((acc, transaction) => acc + transaction.amount, 0) ?? 0
   const totalIncome : number = transactions?.filter((transaction: Transaction) => transaction.isExpense === false).reduce((acc, transaction) => acc + transaction.amount, 0) ?? 0
   const totalSavings : number = totalIncome + totalExpenses
-  console.log(totalIncome, totalExpenses, totalSavings)
 
   // Normalizar las barras
   const maxValue = Math.max(

@@ -13,7 +13,6 @@ const SignUpForm = () => {
 async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-  console.log("🧾 Enviando:", { username, email, password });
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     headers: {

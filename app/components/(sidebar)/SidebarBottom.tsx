@@ -29,8 +29,8 @@ const SidebarBottom = () => {
 
     {/* Avatar */}
 <Avatar>
-  {session?.user?.image ? (
-    <AvatarImage src={session.user.image} />
+  {session?.user?.imgUrl ? (
+    <AvatarImage src={session.user.imgUrl} />
   ) : (
     <AvatarFallback>{session?.user?.name?.[0] ?? "?"}</AvatarFallback>
   )}

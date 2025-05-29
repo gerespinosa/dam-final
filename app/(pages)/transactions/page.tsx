@@ -20,9 +20,7 @@ const Page = () => {
       try {
         // const data : Transaction[]= await getUserTransactions(userId)
         const data : any[] = await getUserTransactions(userId)
-        console.log("Data", data)
         setTransactions(data)
-        console.log("Transacciones", transactions)
       } catch (error) {
         console.error("Error fetching transactions:", error)
       }

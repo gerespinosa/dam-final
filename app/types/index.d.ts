@@ -1,23 +1,32 @@
-import { getCurrentUser } from "@/lib/session";
-import { NextResponse } from "next/server";
+declare type User = {
+    id: string,
+    username: string,
+    password: string,
+    email?: string,
+    imgUrl?: string,
+    transactions: Transaction[]
+    save(): T
+}
 
-export async function PATCH(request: Request) {
-  const { userId, username, email, imgUrl } = await request.json();
+declare type Transaction = {
+    _id: string,
+    userId: string,
+    amount: number,
+    isExpense: boolean,
+    desc: string,
+    createdAt?: number,
+    updatedAt?: number,
+    category: Category,
+    receipt?: any,
+    notes?: string[]
+    save(): T
+}
 
-  console.log("🧾 PATCH recibido con:", { userId, username, email, imgUrl });
-
-  const user = await getCurrentUser();
-  if (!user || user.id !== userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  if (username) user.username = username;
-  if (email) user.email = email;
-  if (imgUrl) user.imgUrl = imgUrl;
-
-  await user.save();
-
-  console.log("✅ Usuario actualizado:", user);
-
-  return NextResponse.json({ message: "User updated successfully" });
+declare type Category = {
+    id: string,
+    name: string,
+    shownName: string,
+    url?: string,
+    transactions?: Transaction[]
+    save(): T
 }

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { instance } from "@/app/lib/axios";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import React, { useState } from "react";
 import bcrypt from "bcryptjs";
 
@@ -73,8 +73,12 @@ const page = () => {
         ...updatedFields,
       });
       if (response.status === 200) {
-        router.refresh();
-        router.push("/");
+        await signIn("credentials", {
+          redirect: false,
+          username: session?.user?.username,
+          password: password || nuevoPassword,
+        });
+        router.push("/user");
       } else {
         setError("Error al actualizar usuario");
       }
@@ -155,11 +159,11 @@ const page = () => {
       </div>
 
       {/* Parte derecha */}
-      <div className="w-1/2 border rounded-md p-4 shadow-md bg-white space-y-2">
+      <div className="w-1/2 h-fit  bg-gradient-to-r from-blue-400 to-blue-200 border rounded-md p-4 shadow-md bg-white space-y-2">
         <img
           src={session?.user?.imgUrl}
           alt="Foto de perfil"
-          className="w-24 h-24 rounded-full object-cover mx-auto"
+          className="w-24 h-24 rounded-full object-cover mx-auto shadow-md mb-4"
         />
         <div className="text-center">
           <p className="font-semibold">{session?.user.username}</p>

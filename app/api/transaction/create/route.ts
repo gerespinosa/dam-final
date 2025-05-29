@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
   const { userId, transaction } = body;
 
   try {
-    console.log("Lo que llega", userId, transaction)
     await db()
 const newTransaction = new Transaction({
   userId,
@@ -17,7 +16,6 @@ const newTransaction = new Transaction({
   category: transaction.category,
   notes: transaction.notes
 });
-    console.log("la nueva", newTransaction)
 
     const saved = await newTransaction.save();
     console.log(saved)

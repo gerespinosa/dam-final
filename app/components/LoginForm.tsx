@@ -27,9 +27,6 @@ export default function LoginForm() {
         // Si el login no es correcto, entonces devolvemos una página de error
         alert("Contraseña incorrecta")
       }
-  
-      console.log(username, password)
-      console.log(result);
     }
 
     async function handleGoogleLogin() {

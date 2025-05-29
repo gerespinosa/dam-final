@@ -19,7 +19,6 @@ const TransactionsTable = ({ transactions }: TransactionsTableProps) => {
           "Content-Type": "application/json"
         }
       })
-      console.log(response)
       window.location.reload();
     } catch (error: any) {
       console.log("Imposible borrar la transacción")

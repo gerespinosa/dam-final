@@ -8,7 +8,6 @@ export async function POST(req: NextRequest) {
 
   try {
     await db()
-    console.log("hola",userId)
     const transactions = await Transaction.find({
       userId: userId
     });
