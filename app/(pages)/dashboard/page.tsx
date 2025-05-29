@@ -9,7 +9,8 @@ import TransactionsGraph from "./(components)/TransactionGraph";
 
 const page = () => {
   const { data: session } = useSession();
-  const userId = session?.user?.id;
+  // Type assertion to include 'id' on user
+    const userId: string | undefined = (session?.user as (typeof session.user & { id?: string }))?.id;
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
