@@ -9,7 +9,7 @@ import TransactionsGraph from "./(components)/TransactionGraph";
 
 const page = () => {
   const { data: session } = useSession();
-  const userId = session?.user?._id;
+  const userId = session?.user?.id;
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
