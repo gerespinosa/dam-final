@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Transaction from "../../../../models/Transaction";
 import { db } from "@/app/lib/db";
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
-  const { params } = context;
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const transactionId = params?.id;
   if (!transactionId) {
     return NextResponse.json({ error: "No transaction id provided" }, { status: 400 });
