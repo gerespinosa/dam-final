@@ -18,7 +18,6 @@ const Page = () => {
 
     const fetchTransactions = async () => {
       try {
-        // const data : Transaction[]= await getUserTransactions(userId)
         const data = await getUserTransactions(userId)
         setTransactions(data ?? [])
       } catch (error) {
