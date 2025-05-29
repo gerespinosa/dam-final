@@ -35,7 +35,7 @@ export const authConfig = {
           id: user._id.toString(),
           username: user.username,
           email: user.email,
-          image: user.image
+          url: user.url
         };
       }
     }),
@@ -47,7 +47,7 @@ export const authConfig = {
           id: profile.sub,
           name: profile.given_name,
           email: profile.email,
-          image: profile.picture,
+          url: profile.url,
           username: profile.name,
         };
       },

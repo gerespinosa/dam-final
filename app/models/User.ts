@@ -14,6 +14,10 @@ const userSchema = new Schema ({
     email: {
         type: String,
         required: false
+    },
+    imgUrl: { 
+        type: String,
+        required: false
     }
 },
 {timestamps: true}

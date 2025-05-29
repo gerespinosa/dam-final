@@ -16,7 +16,7 @@ const top = (window.screen.height / 2) - (800 / 2);
 
 
   return (
-      <button  className='min-w-[200px] p-4 rounded-md border-2 border-blue-400 hover:bg-blue-400 hover:text-white text-black flex items-center gap-1'
+      <button  className='min-w-[200px] max-w-fit p-4 rounded-md border-2 border-blue-400 hover:bg-blue-400 hover:text-white text-black flex items-center gap-1'
       onClick={handleOpening}>
         <GoPlusCircle className="text-xl" />
         NUEVA OPERACIÓN

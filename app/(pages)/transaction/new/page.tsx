@@ -1,39 +1,59 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { getCategories } from '@/app/services/getCategories'
+import { instance } from '@/app/lib/axios'
 
 const page = () => {
 
-    const [amount, setAmount] = useState("")
+    const [amount, setAmount] = useState("");
     const [desc, setDesc] = useState("")
     const [category, setCategory] = useState("")
+    const [categoriesList, setCategoriesList] = useState<Category[]>([]);
+    const [notes, setNotes] = useState("")
+
+// Obtenemos las categorías desde la base de datos
+    useEffect(() => {
+      async function fetchCategories() {
+        const data = await getCategories();
+        setCategoriesList(data);
+      }
+
+      fetchCategories();
+    }, []);
 
     const {data: session} = useSession()
 
     async function createOperation(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault()
 
-        const isExpense = amount < 0
+        const isExpense = parseFloat(amount) < 0
+        const selectedCategory = categoriesList.find(cat => cat.name === category);
+        if (!selectedCategory) return;
         
-        const response = await fetch('/api/transaction/create', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId : session?.user?.id,
-                transaction: {
-                    isExpense,
-                    amount,
-                    category:{
-                        name: category,
-                        img: ""
-                    },
-                    desc,
-                }
-            })
-        })
+        const response = await instance.post('/transaction/create', {
+            userId: session?.user?.id,
+            transaction: {
+                isExpense,
+                amount: parseFloat(amount),
+                category: {
+                    name: selectedCategory.name,
+                    shownName: selectedCategory.shownName,
+                    url: selectedCategory.url
+                },
+                desc,
+                notes
+            }
+        });
+
+        if(response.status === 200){
+          alert('Operación creada cón éxito')
+          window.close()
+        }
     }
+
+
+
 
   return (
     <form onSubmit={createOperation} className='h-fit items-center flex flex-wrap p-4 gap-2 justify-between'>
@@ -42,8 +62,10 @@ const page = () => {
         className="rounded-md outline-none border-2 border-blue-400 p-2 max-w-[100px]"
         type="number"
         placeholder="Cantidad"
+        step="any"
+        min="-999999"
         value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))}      
+        onChange={(e) => setAmount(e.target.value)}      
     />
       {/* Concepto */}
       <input
@@ -59,37 +81,20 @@ const page = () => {
         value={category}
         onChange={(e) => setCategory(e.target.value)}
       >
-        <option value="rent">Alquiler / Hipoteca</option>
-        <option value="food">Alimentación</option>
-        <option value="restaurants">Restaurantes y cafés</option>
-        <option value="transport">Transporte</option>
-        <option value="fuel">Combustible</option>
-        <option value="education">Educación</option>
-        <option value="health">Salud y farmacia</option>
-        <option value="entertainment">Entretenimiento</option>
-        <option value="shopping">Compras / Ropa</option>
-        <option value="travel">Viajes</option>
-        <option value="utilities">Teléfono / Internet</option>
-        <option value="bills">Electricidad / Agua / Gas</option>
-        <option value="pets">Mascotas</option>
-        <option value="home_maintenance">Mantenimiento del hogar</option>
-        <option value="technology">Tecnología</option>
-        <option value="sports">Gimnasio / Deportes</option>
-        <option value="donations">Donaciones</option>
-        <option value="insurance">Seguros</option>
-        <option value="taxes">Impuestos</option>
-        <option value="savings">Ahorros</option>
-        <option value="investments">Inversiones</option>
-        <option value="income">Ingresos</option>
-        <option value="freelance">Freelance</option>
-        <option value="gifts">Regalos</option>
-        <option value="subscriptions">Suscripciones</option>
-        <option value="childcare">Cuidado infantil</option>
-        <option value="beauty">Belleza</option>
-        <option value="events">Eventos / Celebraciones</option>
-        <option value="cleaning">Limpieza</option>
-        <option value="other">Otros</option>
+        {categoriesList.map((cat) => (
+          <option key={cat.name} value={cat.name}>
+            {cat.shownName}
+          </option>
+        ))}
       </select>
+            {/* Concepto */}
+      <input
+        className="rounded-md outline-none border-2 border-blue-400 p-2"
+        type="text"
+        placeholder="Notas"
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+      />
 
       <button  type={"submit"}
       className='min-w-[200px] p-4 rounded-md border-2 border-blue-400 hover:bg-blue-400 hover:text-white text-black flex items-center gap-1 justify-center'>

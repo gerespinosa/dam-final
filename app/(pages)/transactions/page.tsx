@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { getUserTransactions } from '@/app/services/getUserTransactions'
 import TransactionsTable from './(components)/TransactionsTable'
+import NewTransactionButton from '../dashboard/(components)/NewTransactionButton'
 
 const Page = () => {
   const { data: session } = useSession()
@@ -32,11 +33,10 @@ const Page = () => {
 
   if (!userId) return <p>Cargando sesión...</p>
 
-  if (transactions.length === 0) return <p>No hay transacciones</p>
-
   return (
-    <div className='h-[100vh] p-4'>
-      <TransactionsTable transactions={transactions} />
+    <div className='h-fit max-h-[100vh] w-full flex flex-col items-start p-4 space-y-2'>
+      <NewTransactionButton />
+    <TransactionsTable transactions={transactions} />
     </div>
   )
 }

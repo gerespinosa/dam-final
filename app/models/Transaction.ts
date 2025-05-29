@@ -5,8 +5,13 @@ const categorySchema = new Schema({
     type: String,
     required: true
   },
-  img: {
-    type: String
+  shownName: {
+    type: String,
+    required: true
+  },
+  url: {
+    type: String,
+    required: false
   }
 }, { _id: false });
 
