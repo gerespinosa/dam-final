@@ -82,7 +82,7 @@ const TransactionsTable = ({ transactions }: TransactionsTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {transactions.map((transaction : Transaction) => (
+          {filteredTransactions.map((transaction : Transaction) => (
             <tr key={transaction._id} className='border-b-1'>
                 <td>
                     {transaction._id}
@@ -104,14 +104,13 @@ const TransactionsTable = ({ transactions }: TransactionsTableProps) => {
                   </div>
                 </td>
                 <td>
-                                      <button onClick={() => handleAddNote(transaction._id)} className='text-blue-400'>
+                    <button onClick={() => handleAddNote(transaction._id)} className='text-blue-400'>
                       Añadir Nota
                     </button><br />
                     {transaction.notes?.map((note) => note)}
                 </td>
                 <td>
                     <MdDelete onClick={() => handleDelete(transaction._id)} />
-
                 </td>
             </tr>
           ))}
